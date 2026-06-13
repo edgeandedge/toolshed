@@ -1,0 +1,27 @@
+[package]
+name = "thegraph-headers"
+description = "Common HTTP headers for _The Graph_ network services"
+version = "0.3.1"
+repository = "https://github.com/edgeandedge/toolshed"
+authors = ["Lorenzo Delgado (LNSD) <lorenzo@edgeandedge.com>"]
+license.workspace = true
+edition.workspace = true
+rust-version = "1.87"
+
+[features]
+attestation = ["thegraph-core/attestation"]
+
+[dependencies]
+headers = "0.4"
+http = "1.2.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thegraph-core = { version = "0.15", path = "../thegraph-core", features = ["serde"] }
+
+[dev-dependencies]
+fake = "4.0.0"
+thegraph-core = { path = "../thegraph-core", features = ["fake"] }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

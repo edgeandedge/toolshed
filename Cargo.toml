@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+members = [
+    "graphql",
+    "thegraph-client-subgraphs",
+    "thegraph-core",
+    "thegraph-graphql-http",
+    "thegraph-headers",
+]
+
+[workspace.package]
+license = "MIT"
+edition = "2024"

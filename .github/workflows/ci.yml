@@ -1,0 +1,83 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: full
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+
+      - uses: actions-rust-lang/setup-rust-toolchain@ac90e63697ac2784f4ecfe2964e1a285c304003a # v1
+        with:
+          components: clippy
+          cache: false
+          rustflags: ''
+
+      - name: Cache rust build files
+        uses: Leafwing-Studios/cargo-cache@43ec9a5bad6e7f174e7fc65dcf533de75ff65881 # v2
+
+      - name: check (release)
+        run: cargo check --workspace --all-features --release
+
+      - name: clippy
+        run: cargo clippy --workspace --all-features -- -D warnings --force-warn deprecated --force-warn dead-code
+
+      ## Tests
+      # Install sops (needed for decrypting tests .env file)
+      - name: Setup sops
+        uses: nhedger/setup-sops@187c90dbb4e28c3225263886266a5b92baa7e5a1 # v2
+
+      # Install age (needed for decrypting tests .env file)
+      - name: Setup age
+        uses: alessiodionisi/setup-age-action@82b9aea163ade7fe23441552a514cf666b214077 # v1.3.0
+
+      - name: unit-tests
+        uses: LNSD/sops-exec-action@6da1fbca63459d9796097496d5f5e6233555b31a # v1
+        env:
+          SOPS_AGE_KEY: ${{ secrets.IT_TESTS_AGE_KEY }}
+        with:
+          env_file: .env
+          run: cargo test --workspace --all-features --lib
+
+      - name: doc-tests
+        uses: LNSD/sops-exec-action@6da1fbca63459d9796097496d5f5e6233555b31a # v1
+        env:
+          SOPS_AGE_KEY: ${{ secrets.IT_TESTS_AGE_KEY }}
+        with:
+          env_file: .env
+          run: cargo test --workspace --all-features --doc
+
+      - name: integration-tests
+        uses: LNSD/sops-exec-action@6da1fbca63459d9796097496d5f5e6233555b31a # v1
+        env:
+          SOPS_AGE_KEY: ${{ secrets.IT_TESTS_AGE_KEY }}
+        with:
+          env_file: .env
+          run: cargo test --workspace --all-features --test '*'
+
+  format:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+
+      - name: Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@ac90e63697ac2784f4ecfe2964e1a285c304003a # v1
+        with:
+          toolchain: nightly
+          components: rustfmt
+          cache: false
+
+      - run: cargo +nightly fmt --all -- --check
