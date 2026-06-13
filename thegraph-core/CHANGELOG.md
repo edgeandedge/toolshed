@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.15.3](https://github.com/edgeandedge/toolshed/compare/thegraph-core-v0.15.2...thegraph-core-v0.15.3) - 2026-06-13
+
+### Other
+
+- Initial import: toolshed (rebranded for the perimeter)
+
 ## [0.15.1](https://github.com/edgeandedge/toolshed/compare/thegraph-core-v0.15.0...thegraph-core-v0.15.1) - 2025-06-23
 
 ### Added

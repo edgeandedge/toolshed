@@ -21,6 +21,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.3.3](https://github.com/edgeandedge/toolshed/compare/thegraph-client-subgraphs-v0.3.2...thegraph-client-subgraphs-v0.3.3) - 2026-06-13
+
+### Other
+
+- Initial import: toolshed (rebranded for the perimeter)
+
 ## [0.3.1](https://github.com/edgeandedge/toolshed/compare/thegraph-client-subgraphs-v0.3.0...thegraph-client-subgraphs-v0.3.1) - 2025-06-23
 
 ### Other

@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2](https://github.com/edgeandedge/toolshed/compare/thegraph-graphql-http-v0.4.1...thegraph-graphql-http-v0.4.2) - 2026-06-13
+
+### Other
+
+- Initial import: toolshed (rebranded for the perimeter)
+
 ## [0.4.0](https://github.com/edgeandedge/toolshed/compare/thegraph-graphql-http-v0.3.3...thegraph-graphql-http-v0.4.0) - 2025-04-17
 
 ### Other
